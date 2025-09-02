@@ -56,8 +56,6 @@ class VehicleController extends Controller
      */
     public function update(VehicleRequest $request, Vehicle $vehicle)
     {
-        $image = $this->uploadImage($request, $path = 'public/vehicels/', $name = 'image');
-
         $vehicle->update([
             'name' => $request->name,
             'type' => $request->type,
@@ -66,14 +64,14 @@ class VehicleController extends Controller
             'condition' => $request->condition ? 1 : 0,
         ]);
 
-        if($request->file($name)){
-            $this->updateImage(
-                $path = 'public/vehicles/', $name = 'image', $data = $vehicle, $url = $image->hashName()
-            );
+        if($request->file('image')){
+            $image = $this->uploadImage($request, 'public/vehicles/', 'image');
+            $this->updateImage('public/vehicles/', 'image', $vehicle, $image->hashName());
         }
 
         return back()->with('toast_success', 'Kendaraan Berhasil Diubah');
     }
+
 
     /**
      * Remove the specified resource from storage.
