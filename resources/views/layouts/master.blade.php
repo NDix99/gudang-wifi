@@ -59,8 +59,8 @@
     <script src="{{ asset('dist/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
 
 
-    <!-- Tabler Core -->
-    <script src="{{ asset('backend/dist/js/tabler.min.js') }}"></script>
+        <!-- Tabler Core -->
+    <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
 
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
