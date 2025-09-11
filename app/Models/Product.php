@@ -15,12 +15,13 @@ class Product extends Model
 
     public function getImageAttribute($value)
     {
-        if ($value != null) :
-            return asset('storage/products/' . $value);
-        else :
-            return'https://fakeimg.pl/308x205/?text=Product&font=lexend';
-        endif;
+        if ($value != null) {
+            return asset('products/' . $value);
+        } else {
+            return 'https://fakeimg.pl/308x205/?text=Product&font=lexend';
+        }
     }
+
 
     public function category()
     {
