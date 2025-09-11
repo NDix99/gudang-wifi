@@ -30,7 +30,7 @@
                 @foreach ($categories as $category)
                     <a href="{{ route('category.show', $category->slug) }}"
                         class="p-2 flex flex-row items-center gap-4 rounded-md bg-white hover:bg-sky-700 hover:text-white hover:scale-110 duration-300">
-                        <img src="{{ asset('storage/products/'.$product->image) }}" alt="{{ $category->name }}" class="object-cover w-10">
+                        <img src="{{ $category->image }}" alt="{{ $category->name }}" class="object-cover w-10">
                         <h1 class="text-sm italic">{{ $category->name }}</h1>
                     </a>
                 @endforeach
