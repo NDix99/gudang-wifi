@@ -12,7 +12,8 @@ trait HasImage
 
         if($request->file($name)){
             $image = $request->file($name);
-            $image->storeAs($path, $image->hashName());
+            // Simpan ke disk public agar dapat diakses via public/storage
+            Storage::disk('public')->putFileAs($path, $image, $image->hashName());
         }
 
         return $image;
@@ -20,7 +21,8 @@ trait HasImage
 
     public function updateImage($path, $name, $data, $url)
     {
-        Storage::disk('local')->delete($path. basename($data->image));
+        // Hapus file lama dari disk public
+        Storage::disk('public')->delete($path. basename($data->image));
         $data->update([
             $name => $url,
         ]);

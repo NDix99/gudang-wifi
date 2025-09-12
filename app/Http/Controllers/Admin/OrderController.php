@@ -82,7 +82,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        $image = $this->uploadImage($request, $path = 'public/products/', $name = 'image');
+        $image = $this->uploadImage($request, $path = 'orders/', $name = 'image');
 
         if($order->status == OrderStatus::Pending){
             $order->update([

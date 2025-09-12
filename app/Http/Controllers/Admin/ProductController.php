@@ -49,7 +49,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $image = $this->uploadImage($request, $path = 'public/products/', $name = 'image');
+        $image = $this->uploadImage($request, $path = 'products/', $name = 'image');
 
         Product::create([
             'category_id' => $request->category_id,
@@ -87,7 +87,7 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-        $image = $this->uploadImage($request, $path = 'public/products/', $name = 'image');
+        $image = $this->uploadImage($request, $path = 'products/', $name = 'image');
 
         $product->update([
             'category_id' => $request->category_id,
@@ -99,7 +99,7 @@ class ProductController extends Controller
 
         if($request->file($name)){
             $this->updateImage(
-                $path = 'public/products/', $name = 'image', $data = $product, $url = $image->hashName()
+                $path = 'products/', $name = 'image', $data = $product, $url = $image->hashName()
             );
         }
 
@@ -116,7 +116,7 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        Storage::disk('local')->delete('public/products/'. basename($product->image));
+        Storage::disk('public')->delete('products/'. basename($product->image));
 
         return back()->with('toast_success', 'Kategori Berhasil Dihapus');
     }

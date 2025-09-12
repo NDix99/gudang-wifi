@@ -37,7 +37,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $image = $this->uploadImage($request, $path = 'public/categories/', $name = 'image');
+        $image = $this->uploadImage($request, $path = 'categories/', $name = 'image');
 
         Category::create([
             'name' => $request->name,
@@ -56,7 +56,7 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        $image = $this->uploadImage($request, $path = 'public/categories/', $name = 'image');
+        $image = $this->uploadImage($request, $path = 'categories/', $name = 'image');
 
         $category->update([
             'name' => $request->name,
@@ -64,7 +64,7 @@ class CategoryController extends Controller
 
         if($request->file($name)){
             $this->updateImage(
-                $path = 'public/categories/', $name = 'image', $data = $category, $url = $image->hashName()
+                $path = 'categories/', $name = 'image', $data = $category, $url = $image->hashName()
             );
         }
 
@@ -81,7 +81,7 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        Storage::disk('local')->delete('public/categories/'. basename($category->image));
+        Storage::disk('public')->delete('categories/'. basename($category->image));
 
         return back()->with('toast_success', 'Kategori Berhasil Dihapus');
     }

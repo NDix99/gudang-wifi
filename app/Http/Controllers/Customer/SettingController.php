@@ -20,7 +20,7 @@ class SettingController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $image = $this->uploadImage($request, $path = 'public/avatars/', $name = 'avatar');
+        $image = $this->uploadImage($request, $path = 'avatars/', $name = 'avatar');
 
         $request->validate([
             'name' => 'required',
@@ -39,7 +39,7 @@ class SettingController extends Controller
 
         if($request->file($name)){
             $this->updateImage(
-                $path = 'public/avatars/', $name = 'avatar', $data = $user, $url = $image->hashName()
+                $path = 'avatars/', $name = 'avatar', $data = $user, $url = $image->hashName()
             );
         }
 

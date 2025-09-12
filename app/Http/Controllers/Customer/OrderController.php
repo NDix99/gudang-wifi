@@ -39,7 +39,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $image = $this->uploadImage($request, $path = 'public/orders/', $name = 'image');
+        $image = $this->uploadImage($request, $path = 'orders/', $name = 'image');
 
         Order::create([
             'user_id' => Auth::id(),
@@ -61,7 +61,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        $image = $this->uploadImage($request, $path = 'public/orders/', $name = 'image');
+        $image = $this->uploadImage($request, $path = 'orders/', $name = 'image');
 
         $order->update([
             'name' => $request->name,
@@ -71,7 +71,7 @@ class OrderController extends Controller
 
         if($request->file($name)){
             $this->updateImage(
-                $path = 'public/orders/', $name = 'image', $data = $order, $url = $image->hashName()
+                $path = 'orders/', $name = 'image', $data = $order, $url = $image->hashName()
             );
         }
 
@@ -88,7 +88,7 @@ class OrderController extends Controller
     {
         $order->delete();
 
-        Storage::disk('local')->delete('public/orders/'. basename($order->image));
+        Storage::disk('public')->delete('orders/'. basename($order->image));
 
         return back()->with('toast_success', 'Permintaan Barang Berhasil Dihapus');
     }

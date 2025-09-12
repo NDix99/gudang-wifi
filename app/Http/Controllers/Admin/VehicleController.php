@@ -32,7 +32,7 @@ class VehicleController extends Controller
      */
     public function store(VehicleRequest $request)
     {
-        $image = $this->uploadImage($request, $path = 'public/vehicles/', $name = 'image');
+        $image = $this->uploadImage($request, $path = 'vehicles/', $name = 'image');
 
         Vehicle::create([
             'name' => $request->name,
@@ -65,8 +65,8 @@ class VehicleController extends Controller
         ]);
 
         if($request->file('image')){
-            $image = $this->uploadImage($request, 'public/vehicles/', 'image');
-            $this->updateImage('public/vehicles/', 'image', $vehicle, $image->hashName());
+            $image = $this->uploadImage($request, 'vehicles/', 'image');
+            $this->updateImage('vehicles/', 'image', $vehicle, $image->hashName());
         }
 
         return back()->with('toast_success', 'Kendaraan Berhasil Diubah');
@@ -83,7 +83,7 @@ class VehicleController extends Controller
     {
         $vehicle->delete();
 
-        Storage::disk('local')->delete('public/vehicles/'. basename($vehicle->image));
+        Storage::disk('public')->delete('vehicles/'. basename($vehicle->image));
 
         return back()->with('toast_success', 'Kendaraan Berhasil Dihapus');
     }
