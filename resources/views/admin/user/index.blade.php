@@ -47,6 +47,8 @@
                                             <x-button-save title="Simpan" icon="save" class="btn btn-primary" />
                                         </form>
                                     </x-modal>
+                                    <x-button-delete :id="$user->id" :url="route('admin.user.destroy', $user->id)" title=""
+                                        class="btn btn-danger btn-sm" />
                                 </td>
                             </tr>
                         @endforeach
