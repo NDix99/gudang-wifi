@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Models\StockHistory;
 use App\Traits\HasImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -51,13 +52,24 @@ class ProductController extends Controller
     {
         $image = $this->uploadImage($request, $path = 'products/', $name = 'image');
 
-        Product::create([
+        $product = Product::create([
             'category_id' => $request->category_id,
             'supplier_id' => $request->supplier_id,
             'name' => $request->name,
             'image' => $image->hashName(),
             'unit' => $request->unit,
             'description' => $request->description,
+        ]);
+
+        // Catat histori barang masuk saat produk baru dibuat (qty awal 0)
+        StockHistory::create([
+            'product_id' => $product->id,
+            'quantity_change' => 0,
+            'quantity_before' => 0,
+            'quantity_after' => 0,
+            'action' => 'in',
+            'note' => 'Produk baru dibuat',
+            'user_id' => auth()->id(),
         ]);
 
         return redirect((route('admin.product.index')))->with('toast_success', 'Kategori Berhasil Ditambahkan');

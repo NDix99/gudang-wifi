@@ -284,6 +284,21 @@
                             </span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is('admin.stock.history') ? 'active' : '' }}" href="{{ route('admin.stock.history') }}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block mr-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-history" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M12 8v4l3 3"></path>
+                                    <path d="M4.05 11a8 8 0 1 0 .5 -2"></path>
+                                    <path d="M4 13h2v-2h-2z"></path>
+                                </svg>
+                            </span>
+                            <span class="nav-link-title">
+                                Barang Masuk
+                            </span>
+                        </a>
+                    </li>
                     {{-- <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.report') }}">
                             <span class="nav-link-icon d-md-none d-lg-inline-block mr-1">

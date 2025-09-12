@@ -29,7 +29,11 @@ class DashboardController extends Controller
 
         $transactions = Transaction::with('details', 'user')->where('user_id', $user)->get();
 
-        $orders = Order::with('user')->where('user_id', $user)->where('status', OrderStatus::Pending)->get();
+        // Gunakan nilai string enum untuk menghindari mismatch pada query
+        $orders = Order::with('user')
+            ->where('user_id', $user)
+            ->where('status', OrderStatus::Pending->value)
+            ->get();
 
         return view('customer.dashboard', compact('vehicles', 'products', 'orders', 'transactions'));
     }

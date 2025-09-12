@@ -67,6 +67,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'r
         ->only('index', 'update')
         ->middleware('permission:index-stock');
 
+    Route::get('/stock/history', [\App\Http\Controllers\Admin\StockHistoryController::class, 'index'])
+        ->name('stock.history')
+        ->middleware('permission:index-stock');
+
     Route::resource('/vehicle', VehicleController::class)
         ->except('show', 'create', 'edit')
         ->middleware('permission:index-vehicle');

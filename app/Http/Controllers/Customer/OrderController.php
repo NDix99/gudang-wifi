@@ -22,13 +22,12 @@ class OrderController extends Controller
     {
         $orders = Order::with('user')->where('user_id', Auth::id())->paginate(10);
 
-        $product = [];
+        // Petakan produk berdasarkan nama agar mudah diakses di view, hindari undefined index
+        $productsMap = Product::whereIn('name', $orders->pluck('name')->all())
+            ->get()
+            ->keyBy('name');
 
-        foreach($orders as $order){
-            $product = Product::where('name', $order->name)->where('quantity', $order->quantity)->get();
-        }
-
-        return view('customer.order.index', compact('orders', 'product'));
+        return view('customer.order.index', compact('orders', 'productsMap'));
     }
 
     /**

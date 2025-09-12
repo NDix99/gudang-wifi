@@ -88,6 +88,8 @@
                                                 <x-button-save title="Simpan" icon="save" class="btn btn-primary" />
                                             </form>
                                         </x-modal>
+                                    @elseif($order->status == App\Enums\OrderStatus::Success)
+                                        <button type="button" class="btn btn-success btn-sm" disabled>Selesai</button>
                                     @endif
                                 </td>
                             </tr>

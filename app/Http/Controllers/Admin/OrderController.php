@@ -82,18 +82,30 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        $image = $this->uploadImage($request, $path = 'orders/', $name = 'image');
+        // Upload image untuk kebutuhan membuat produk dari permintaan
+        $image = $this->uploadImage($request, $path = 'products/', $name = 'image');
 
         if($order->status == OrderStatus::Pending){
             $order->update([
                 'status' => OrderStatus::Verified,
             ]);
         }else{
+            // Validasi input wajib saat membuat produk dari permintaan
+            $request->validate([
+                'category_id' => 'required|exists:categories,id',
+                'supplier_id' => 'required|exists:suppliers,id',
+                'name' => 'required|string',
+                'unit' => 'required|string',
+                'quantity' => 'required|numeric',
+                'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+                'description' => 'nullable|string',
+            ]);
+
             Product::create([
                 'category_id' => $request->category_id,
                 'supplier_id' => $request->supplier_id,
                 'name' => $request->name,
-                'image' => $image->hashName(),
+                'image' => $image ? $image->hashName() : null,
                 'unit' => $request->unit,
                 'description' => $request->description,
                 'quantity' => $request->quantity

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Enums\OrderStatus;
 use App\Models\Product;
 use App\Models\Vehicle;
 use App\Models\Category;
@@ -40,7 +41,8 @@ class DashboardController extends Controller
 
         $productsOutStock = Product::where('quantity', '<=', 10)->paginate(5);
 
-        $orders = Order::where('status', 0)->get();
+        // Hitung hanya permintaan dengan status Pending (string enum value)
+        $orders = Order::where('status', OrderStatus::Pending->value)->get();
 
         $bestProduct = DB::table('transaction_details')
                        ->join('products', 'products.id', '=', 'transaction_details.product_id')

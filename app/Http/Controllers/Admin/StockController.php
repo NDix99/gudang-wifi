@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Product;
+use App\Models\StockHistory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -31,8 +32,22 @@ class StockController extends Controller
     {
         $product = Product::findOrFail($id);
 
+        $quantityBefore = $product->quantity;
+
         $product->update([
             'quantity' => $request->quantity,
+        ]);
+
+        $quantityAfter = $product->quantity;
+
+        StockHistory::create([
+            'product_id' => $product->id,
+            'quantity_change' => $quantityAfter - $quantityBefore,
+            'quantity_before' => $quantityBefore,
+            'quantity_after' => $quantityAfter,
+            'action' => ($quantityAfter - $quantityBefore) >= 0 ? 'in' : 'adjust',
+            'note' => 'Update stok manual',
+            'user_id' => auth()->id(),
         ]);
 
         return back()->with('toast_success', 'Berhasil Menambahkan Stok Produk');
