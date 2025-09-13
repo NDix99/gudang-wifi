@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
             <div class="md:col-span-7 flex flex-col gap-4">
                 <h1 class="text-center md:text-start text-4xl font-bold md:text-6xl text-gray-100">
-                    Gudang WIFI 🛜
+                    Gudang WIFI 
                 </h1>
                 <p class="text-sm md:text-lg text-center md:text-start text-gray-300">
                     Gudang WIFI membantu memberikan informasi barang digudang secara menyeluruh dan lengkap serta
