@@ -105,7 +105,7 @@
                 <div class="alert alert-danger d-flex align-items-center" role="alert">
                     <i class="fas fa-info-circle mr-2 fa-lg"></i>
                     Saat ini terdapat {{ $orders->count() }} permintaan barang menunggu konfirmasi.
-                    <a href="" class="ml-1">Lihat Detail Permintaan</a>
+                    <a href="{{ route('admin.order.index') }}" class="ml-1">Lihat Detail Permintaan</a>
                 </div>
             @endif
         </div>
