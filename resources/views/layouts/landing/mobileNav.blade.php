@@ -70,6 +70,8 @@
                         <line x1="17" y1="17" x2="17" y2="17.01"></line>
                     </svg>
                 </a> --}}
+                @auth
+                @role('Customer')
                 <a href="{{ route('cart.index') }}"
                     class="font-semibold p-2 rounded-lg hover:bg-sky-700 hover:text-white relative
                         {{ Route::is('cart.index') ? 'border-2 border-sky-500 bg-sky-800' : '' }}">
@@ -85,6 +87,8 @@
                         {{ Auth::user()->carts()->count() }}
                     </div>
                 </a>
+                @endrole
+                @endauth
                 <a href="{{ route('product.index') }}"
                     class="font-semibold p-2 rounded-lg hover:bg-sky-700 hover:text-white
                     {{ Route::is('product*') ? 'border-2 border-sky-500 bg-sky-800' : '' }}">
