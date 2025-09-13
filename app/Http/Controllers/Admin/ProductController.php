@@ -58,7 +58,6 @@ class ProductController extends Controller
             'name' => $request->name,
             'image' => $image->hashName(),
             'unit' => $request->unit,
-            'description' => $request->description,
         ]);
 
         // Catat histori barang masuk saat produk baru dibuat (qty awal 0)
@@ -106,7 +105,6 @@ class ProductController extends Controller
             'supplier_id' => $request->supplier_id,
             'name' => $request->name,
             'unit' => $request->unit,
-            'description' => $request->description,
         ]);
 
         if($request->file($name)){

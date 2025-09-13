@@ -99,7 +99,6 @@ class OrderController extends Controller
                 'unit' => 'required|string',
                 'quantity' => 'required|numeric',
                 'image' => 'required|mimes:png,jpg,jpeg|max:2048',
-                'description' => 'nullable|string',
             ]);
 
             $product = Product::create([
@@ -108,7 +107,6 @@ class OrderController extends Controller
                 'name' => $request->name,
                 'image' => $image ? $image->hashName() : null,
                 'unit' => $request->unit,
-                'description' => $request->description,
                 'quantity' => $request->quantity
             ]);
 

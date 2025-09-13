@@ -23,7 +23,6 @@
                             @endforeach
                         </x-select>
                         <x-input name="image" type="file" title="Foto Produk" placeholder="" :value="old('image')" />
-                        <x-textarea name="description" title="Deskripsi Produk" placeholder="Deskripsi Produk"></x-textarea>
                         <x-button-save title="Simpan" icon="save" class="btn btn-primary" />
                         <x-button-link title="Kembali" icon="arrow-left" :url="route('admin.product.index')" class="btn btn-dark"
                             style="mr-1" />

@@ -29,7 +29,6 @@ class ProductRequest extends FormRequest
                 'image' => 'required|mimes:png,jpg,jpeg|max:2048',
                 'category_id' => 'required',
                 'supplier_id' => 'required',
-                'description' => 'required',
                 'unit' => 'required',
             ];
         }elseif(request()->isMethod('PUT')){
@@ -38,7 +37,6 @@ class ProductRequest extends FormRequest
                 'image' => 'mimes:png,jpg,jpeg|max:2048',
                 'category_id' => 'required',
                 'supplier_id' => 'required',
-                'description' => 'required',
                 'unit' => 'required',
             ];
         }

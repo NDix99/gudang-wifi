@@ -30,9 +30,6 @@
                                     class="text-gray-700 text-sm hover:underline">{{ $product->name }}</a>
                                 <div class="text-gray-500 text-sm">{{ $product->category->name }}</div>
                             </div>
-                            <div class="text-sm text-gray-500">
-                                {{ Str::limit($product->description, 35) }}
-                            </div>
                             @if ($product->quantity > 0)
                                 <form action="{{ route('cart.store', $product->slug) }}" method="POST">
                                     @csrf

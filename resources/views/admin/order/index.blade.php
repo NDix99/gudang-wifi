@@ -82,9 +82,6 @@
                                                 </div>
                                                 <x-input name="image" type="file" title="Foto Barang" placeholder=""
                                                     :value="$order->image" />
-                                                <x-textarea name="description" title="Deskripsi Barang"
-                                                    placeholder="Deskripsi Barang">
-                                                </x-textarea>
                                                 <x-button-save title="Simpan" icon="save" class="btn btn-primary" />
                                             </form>
                                         </x-modal>

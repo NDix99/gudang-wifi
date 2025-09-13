@@ -10,9 +10,6 @@
                 <div class="bg-white border shadow-custom rounded-lg p-4">
                     <p class="text-base text-gray-500">{{ $product->category->name }}</p>
                     <h1 class="font-bold text-2xl md:text-4xl text-gray-700">{{ $product->name }}</h1>
-                    <div class="flex flex-col py-2">
-                        <p class="text-base md:text-lg text-gray-600 py-2 text-justify">{{ $product->description }}</p>
-                    </div>
                     <div class="py-2">
                         <h1 class="text-gray-600 text-sm">Informasi Produk</h1>
                         <div class="flex flex-row justify-between text-sm text-gray-500">
@@ -79,9 +76,6 @@
                                 <a href="{{ route('product.show', $product->slug) }}"
                                     class="text-gray-700 text-sm hover:underline">{{ $product->name }}</a>
                                 <div class="text-gray-500 text-sm">{{ $product->category->name }}</div>
-                            </div>
-                            <div class="text-sm text-gray-500">
-                                {{ Str::limit($product->description, 35) }}
                             </div>
                             @if ($product->quantity > 0)
                                 <form action="{{ route('cart.store', $product->slug) }}" method="POST">
