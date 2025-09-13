@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Models\StockHistory;
 use App\Traits\HasImage;
 use App\Enums\OrderStatus;
 use Illuminate\Http\Request;
@@ -101,7 +102,7 @@ class OrderController extends Controller
                 'description' => 'nullable|string',
             ]);
 
-            Product::create([
+            $product = Product::create([
                 'category_id' => $request->category_id,
                 'supplier_id' => $request->supplier_id,
                 'name' => $request->name,
@@ -109,6 +110,17 @@ class OrderController extends Controller
                 'unit' => $request->unit,
                 'description' => $request->description,
                 'quantity' => $request->quantity
+            ]);
+
+            // Catat histori stok masuk dari permintaan customer
+            StockHistory::create([
+                'product_id' => $product->id,
+                'quantity_change' => $request->quantity,
+                'quantity_before' => 0,
+                'quantity_after' => $request->quantity,
+                'action' => 'in',
+                'note' => 'Barang masuk dari permintaan customer',
+                'user_id' => auth()->id(),
             ]);
 
             $order->update([
