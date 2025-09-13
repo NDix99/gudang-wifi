@@ -1,4 +1,4 @@
-@extends('layouts.landing.master', ['title' => 'Homepage'])
+@extends('layouts.landing.master', ['title' => 'Gudang WIFI'])
 
 @section('content')
     @include('layouts.landing.hero')
