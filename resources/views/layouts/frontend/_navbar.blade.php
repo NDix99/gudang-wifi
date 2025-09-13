@@ -4,7 +4,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         {{-- <a href="#" class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0 pr-md-3">
-            <img src="{{ asset('static/logo.svg') }}" alt="Tabler" class="navbar-brand-image">
+            <img src="{{ asset('static/DAS.png') }}" alt="Tabler" class="navbar-brand-image">
         </a> --}}
         <a href="/" class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0 pr-md-3 mt-2">
             <h2 class="font-weight-bold">INVENTORY</h2>

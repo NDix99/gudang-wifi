@@ -15,8 +15,18 @@
     <meta name="HandheldFriendly" content="True" />
     <meta name="MobileOptimized" content="320" />
     <meta name="robots" content="noindex,nofollow,noarchive" />
-    <link rel="icon" href="{{ asset('icon.png') }}" type="image/x-icon" />
-    <link rel="shortcut icon" href="{{ asset('icon.png') }}" type="image/x-icon" />
+<link rel="icon" href="{{ asset('DAS.png') }}" type="image/x-icon" />
+<link rel="shortcut icon" href="{{ asset('DAS.png') }}" type="image/x-icon" />
+<style>
+    .login-logo {
+        width: 200px !important;
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
     <!-- Tabler Core -->
     <link href="{{ asset('dist/css/tabler.min.css') }}" rel="stylesheet" />
 </head>
@@ -28,8 +38,8 @@
                 @csrf
                 <div class="card-body p-4">
                     <div class="text-center mb-4">
-                        <img src="{{ asset('icon.png') }}" alt="Logo" class="mb-2" width="64">
-                        <h2 class="fw-bold text-primary">Inventory System</h2>
+                        <img src="{{ asset('DAS.png') }}" alt="Logo" class="mb-2" width="64">
+                        <h2 class="fw-bold text-primary">Inventory System Das.net</h2>
                         <p class="text-muted">Silakan masuk ke akun anda</p>
                     </div>
 
