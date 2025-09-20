@@ -12,42 +12,41 @@
                             <th>Nama Produk</th>
                             <th>Kategori Produk</th>
                             <th>Kuantitas</th>
+                            <th>Tanggal & Waktu Transaksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($transactions as $i => $transaction)
+                        @foreach ($stockHistories as $i => $history)
                             <tr>
-                                <td>{{ $i + $transactions->firstItem() }}</td>
-                                <td>{{ $transaction->user->name }}</td>
+                                <td>{{ $i + $stockHistories->firstItem() }}</td>
+                                <td>{{ $history->user->name ?? 'System' }}</td>
+                                <td>{{ $history->product->name }}</td>
+                                <td>{{ $history->product->category->name }}</td>
+                                <td>{{ abs($history->quantity_change) }} - {{ $history->product->unit }}</td>
                                 <td>
-                                    @foreach ($transaction->details as $details)
-                                        <li>{{ $details->product->name }}</li>
-                                    @endforeach
-                                </td>
-                                <td>
-                                    @foreach ($transaction->details as $details)
-                                        <li>{{ $details->product->category->name }}</li>
-                                    @endforeach
-                                </td>
-                                <td>
-                                    @foreach ($transaction->details as $details)
-                                        <li>{{ $details->quantity }} - {{ $details->product->unit }}</li>
-                                    @endforeach
+                                    <div class="text-nowrap">
+                                        <div class="font-weight-bold">
+                                            {{ \Carbon\Carbon::parse($history->created_at)->format('d/m/Y') }}
+                                        </div>
+                                        <div class="text-muted small">
+                                            {{ \Carbon\Carbon::parse($history->created_at)->format('H:i:s') }}
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="4" class="font-weight-bold text-uppercase">
+                            <td colspan="5" class="font-weight-bold text-uppercase">
                                 Total Transaksi
                             </td>
                             <td class="font-weight-bold text-danger text-right">
-                                {{ $transactions->count() }}x Transaksi
+                                {{ $grandTransaction }}x Transaksi
                             </td>
                         </tr>
                     </tbody>
                 </x-table>
             </x-card>
-            <div class="d-flex justify-content-end">{{ $transactions->links() }}</div>
+            <div class="d-flex justify-content-end">{{ $stockHistories->links() }}</div>
         </div>
     </x-container>
 @endsection

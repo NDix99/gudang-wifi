@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Rent;
 use App\Models\Transaction;
+use App\Models\StockHistory;
 use Illuminate\Http\Request;
 use App\Models\TransactionDetail;
 use App\Http\Controllers\Controller;
@@ -12,11 +13,15 @@ class TransactionController extends Controller
 {
     public function product()
     {
-        $transactions = Transaction::with('details.product')->latest()->paginate(10);
+        // Ambil data dari stock_histories untuk barang keluar (action = 'out')
+        $stockHistories = StockHistory::with(['product.category', 'user'])
+            ->where('action', 'out')
+            ->latest()
+            ->paginate(10);
 
-        $grandQuantity = TransactionDetail::sum('quantity');
+        $grandQuantity = StockHistory::where('action', 'out')->sum('quantity_change');
 
-        return view('admin.transaction.product', compact('transactions', 'grandQuantity'));
+        return view('admin.transaction.product', compact('stockHistories', 'grandQuantity'));
     }
 
     public function vehicle()
