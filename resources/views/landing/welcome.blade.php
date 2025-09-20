@@ -22,7 +22,8 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                         @foreach ($products as $product)
                             <div class="relative bg-white p-4 rounded-lg border shadow-custom">
-                                <img src="{{ $product->image }}" class="rounded-lg w-full object-cover" />
+                                <img src=
+                                "{{ $product->image }}" class="rounded-lg w-full object-cover" />
                                 <div
                                     class="font-mono absolute -top-3 -right-3 p-2 {{ $product->quantity > 0 ? 'bg-green-700' : 'bg-rose-700' }} rounded-lg text-gray-50">
                                     {{ $product->quantity }}
