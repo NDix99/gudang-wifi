@@ -96,7 +96,7 @@
                                 </svg>
                             </span>
                             <span class="nav-link-title">
-                                Permintaan Barang
+                                Permintaan Barang Yang belum ada di Gudang
                             </span>
                         </a>
                     </li>
@@ -377,7 +377,7 @@
                                 </svg>
                             </span>
                             <span class="nav-link-title">
-                                Permintaan Barang
+                                Permintaan Barang yang belum ada di Gudang
                             </span>
                         </a>
                     </li>
