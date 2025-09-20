@@ -3,6 +3,9 @@
 @section('content')
     <x-container>
         <div class="col-12">
+            @can('create-product')
+                <x-button-link title="Tambah Produk" icon="plus" class="btn btn-primary mb-3" style="mr-1" :url="route('admin.product.create')" />
+            @endcan
             <x-card title="DAFTAR PRODUK" class="card-body p-0">
                 <x-table>
                     <thead>
