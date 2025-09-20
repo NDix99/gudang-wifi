@@ -58,6 +58,25 @@
                             </span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is('customer.dashboard') ? 'active' : '' }}"
+                            href="{{ route('landing') }}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block mr-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-package"
+                                    width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5"></path>
+                                    <path d="M12 12l8 -4.5"></path>
+                                    <path d="M12 12l0 9"></path>
+                                    <path d="M12 12l-8 -4.5"></path>
+                                </svg>
+                            </span>
+                            <span class="nav-link-title">
+                                Daftar Barang
+                            </span>
+                        </a>
+                    </li>
                     <div class="hr-text hr-text-left ml-2 mb-2 mt-2">Menu</div>
                     <li class="nav-item">
                         <a class="nav-link {{ Route::is('customer.order*') ? 'active' : '' }}"
@@ -78,6 +97,26 @@
                             </span>
                             <span class="nav-link-title">
                                 Permintaan Barang
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is('cart*') ? 'active' : '' }}"
+                            href="{{ route('cart.index') }}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block mr-1">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="icon icon-tabler icon-tabler-shopping-cart" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <circle cx="6" cy="19" r="2"></circle>
+                                    <circle cx="17" cy="19" r="2"></circle>
+                                    <path d="M17 17h-11v-14h-2"></path>
+                                    <path d="M6 5l6.005 .429m7.138 6.573l-.143 .998h-13"></path>
+                                </svg>
+                            </span>
+                            <span class="nav-link-title">
+                                Keranjang
                             </span>
                         </a>
                     </li>
