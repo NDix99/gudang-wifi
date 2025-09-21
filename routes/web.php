@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\{
     DashboardController, CategoryController, PermissionController, SupplierController,
     ProductController, RoleController, StockController, VehicleController, TransactionController,
-    UserController, OrderController,
+    UserController, OrderController, CartApprovalController,
     ReportController,
     SettingController
 };
@@ -41,10 +41,17 @@ Route::controller(CartController::class)->middleware(['permission:create-transac
     Route::delete('/cart/destroy/{cart:id}', 'destroy')->name('cart.destroy');
     Route::put('/cart/update/{cart:id}', 'update')->name('cart.update');
     Route::post('/cart/order/{product:slug}', 'order')->name('cart.order');
+    Route::post('/cart/submit-to-admin', 'submitToAdmin')->name('cart.submit-to-admin');
 });
 
 Route::post('/transaction', [LandingTransactionController::class, 'store'])
     ->middleware(['permission:create-transaction','auth'])->name('transaction.store');
+
+// Order Tracking Routes - Available for all authenticated users
+Route::controller(\App\Http\Controllers\Customer\OrderTrackingController::class)->middleware(['auth'])->group(function(){
+    Route::get('/order-tracking', 'index')->name('order-tracking.index');
+    Route::get('/order-tracking/{order}', 'show')->name('order-tracking.show');
+});
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'role:Admin|Super Admin']], function () {
     Route::get('/dashboard', DashboardController::class)
@@ -77,6 +84,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'r
 
     Route::resource('/order', OrderController::class)
         ->middleware('permission:index-order');
+
+    Route::controller(CartApprovalController::class)->group(function(){
+        Route::get('/cart-approval', 'index')->name('cart-approval.index')->middleware('permission:index-cart-approval');
+        Route::post('/cart-approval/{cart}/approve', 'approve')->name('cart-approval.approve')->middleware('permission:approve-cart');
+        Route::post('/cart-approval/{cart}/reject', 'reject')->name('cart-approval.reject')->middleware('permission:reject-cart');
+        Route::put('/cart-approval/{cart}/note', 'updateNote')->name('cart-approval.update-note')->middleware('permission:update-cart-note');
+    });
 
     Route::resource('/user', UserController::class)
         ->middleware('permission:index-user');

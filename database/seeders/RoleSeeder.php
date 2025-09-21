@@ -18,12 +18,15 @@ class RoleSeeder extends Seeder
     {
         Role::create(['name' => 'Super Admin']);
 
-        $permissions = Permission::whereIn('name', [
+        $customerPermissions = Permission::whereIn('name', [
             'index-order', 'create-order', 'index-rent', 'create-rent', 'index-transaction', 'create-transaction'
         ])->get();
 
-        $role = Role::create(['name' => 'Customer']);
+        $customerRole = Role::create(['name' => 'Customer']);
+        $customerRole->givePermissionTo($customerPermissions);
 
-        $role->givePermissionTo($permissions);
+        // Admin role gets all permissions
+        $adminRole = Role::create(['name' => 'Admin']);
+        $adminRole->givePermissionTo(Permission::all());
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\StockHistory;
+use App\Enums\CartStatus;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\TransactionDetail;
@@ -15,6 +16,25 @@ class TransactionController extends Controller
 {
     public function store()
     {
+        // Cek apakah ada cart yang siap untuk diproses (Draft saja)
+        $cartsToProcess = Cart::where('user_id', Auth::id())
+            ->where('status', CartStatus::Draft)
+            ->get();
+
+        if($cartsToProcess->isEmpty()){
+            return back()->with('toast_error', 'Tidak ada item untuk diproses');
+        }
+
+        // Filter hanya cart yang stoknya mencukupi
+        $approvedCarts = $cartsToProcess->filter(function($cart) {
+            $product = Product::find($cart->product_id);
+            return $product && $product->quantity >= $cart->quantity;
+        });
+
+        if($approvedCarts->isEmpty()){
+            return back()->with('toast_error', 'Tidak ada item dengan stok yang mencukupi untuk diproses');
+        }
+
         $length = 8;
         $random = '';
 
@@ -29,9 +49,7 @@ class TransactionController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        $carts = Cart::where('user_id', Auth::id())->get();
-
-        foreach($carts as $cart){
+        foreach($approvedCarts as $cart){
             $product = Product::find($cart->product_id);
             $quantityBefore = $product->quantity;
             
@@ -57,8 +75,11 @@ class TransactionController extends Controller
             ]);
         }
 
-        Cart::where('user_id', Auth::id())->delete();
+        // Hapus cart yang sudah diproses
+        Cart::where('user_id', Auth::id())
+            ->where('status', CartStatus::Draft)
+            ->delete();
 
-        return redirect(route('landing'))->with('toast_success', 'Terimakasih pesanan anda akan segera di proses');
+        return redirect(route('landing'))->with('toast_success', 'Terimakasih! Pesanan Anda berhasil diproses. Invoice: ' . $invoice);
     }
 }

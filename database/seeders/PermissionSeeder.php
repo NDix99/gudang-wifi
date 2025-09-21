@@ -52,5 +52,9 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'create-rent']);
         Permission::create(['name' => 'index-transaction']);
         Permission::create(['name' => 'create-transaction']);
+        Permission::create(['name' => 'index-cart-approval']);
+        Permission::create(['name' => 'approve-cart']);
+        Permission::create(['name' => 'reject-cart']);
+        Permission::create(['name' => 'update-cart-note']);
     }
 }

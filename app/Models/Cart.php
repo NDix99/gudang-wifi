@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CartStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,10 @@ class Cart extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'status' => CartStatus::class
+    ];
 
     public function user()
     {

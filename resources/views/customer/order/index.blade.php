@@ -3,7 +3,7 @@
 @section('content')
     <x-container>
         <div class="col-12 col-lg-8">
-            <x-card title="DAFTAR PERMINTAAN BARANG" class="card-body p-0">
+            <x-card title="DAFTAR PERMINTAAN BARANG YANG BELUM ADA DI GUDANG" class="card-body p-0">
                 <x-table>
                     <thead>
                         <tr>

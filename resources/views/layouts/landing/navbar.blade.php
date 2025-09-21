@@ -18,7 +18,17 @@
                 @auth
                     <div class="hidden md:flex items-center gap-4">
                         @role('Customer')
-                            <a href="{{ route('cart.index') }}" class="relative group">
+                            <a href="{{ route('order-tracking.index') }}" class="relative group" title="Tracking Pesanan">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-truck"
+                                    width="32" height="32" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <circle cx="7" cy="17" r="2"></circle>
+                                    <circle cx="17" cy="17" r="2"></circle>
+                                    <path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9l4 4v5h-2m-4 0h-6m-2 -5h7l-3 -3"></path>
+                                </svg>
+                            </a>
+                            <a href="{{ route('cart.index') }}" class="relative group" title="Keranjang">
                                 <div
                                     class="text-sm absolute -right-2 -top-3 bg-rose-500 rounded-full px-2 group-hover:bg-rose-700">
                                     {{ Auth::user()->carts()->count() }}

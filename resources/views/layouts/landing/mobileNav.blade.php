@@ -72,6 +72,18 @@
                 </a> --}}
                 @auth
                 @role('Customer')
+                <a href="{{ route('order-tracking.index') }}"
+                    class="font-semibold p-2 rounded-lg hover:bg-sky-700 hover:text-white
+                        {{ Route::is('order-tracking*') ? 'border-2 border-sky-500 bg-sky-800' : '' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-truck" width="24"
+                        height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <circle cx="7" cy="17" r="2"></circle>
+                        <circle cx="17" cy="17" r="2"></circle>
+                        <path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9l4 4v5h-2m-4 0h-6m-2 -5h7l-3 -3"></path>
+                    </svg>
+                </a>
                 <a href="{{ route('cart.index') }}"
                     class="font-semibold p-2 rounded-lg hover:bg-sky-700 hover:text-white relative
                         {{ Route::is('cart.index') ? 'border-2 border-sky-500 bg-sky-800' : '' }}">
