@@ -13,8 +13,8 @@ class CartApprovalController extends Controller
 {
     public function index()
     {
+        // Ambil semua cart untuk ditampilkan di semua tab (view sudah memfilter per tab)
         $carts = Cart::with(['user', 'product'])
-            ->whereIn('status', ['Menunggu Persetujuan', 'Stok Kosong'])
             ->latest()
             ->get();
 
@@ -59,14 +59,12 @@ class CartApprovalController extends Controller
             'unit' => $product->unit
         ]);
 
-        // Update status cart ke Approved dan hapus
+        // Update status cart ke Approved (tetap disimpan untuk riwayat admin)
         $cart->update([
             'status' => CartStatus::Approved,
             'admin_note' => 'Disetujui dan diproses'
         ]);
 
-        // Hapus cart yang sudah diproses
-        $cart->delete();
 
         return back()->with('toast_success', 'Permintaan ' . $product->name . ' disetujui dan dipindahkan ke tracking pesanan');
     }
