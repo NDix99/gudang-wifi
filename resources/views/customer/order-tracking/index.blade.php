@@ -98,13 +98,16 @@
                                             {{ $orders->firstItem() + $index }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">{{ $order->product->name }}</div>
+                                            <div class="text-sm font-medium text-gray-900">{{ $order['name'] ?? ($order->name ?? '-') }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $order->quantity }} qty
+                                            {{ $order['quantity'] ?? $order->quantity }} {{ $order['unit'] ?? ($order->unit ?? 'qty') }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            @switch($order->status->value)
+                                            @php
+                                                $statusValue = is_array($order) ? $order['status'] : $order->status->value;
+                                            @endphp
+                                            @switch($statusValue)
                                                 @case('Draft')
                                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                                         <i class="fas fa-edit mr-1"></i>
@@ -135,13 +138,34 @@
                                                         Stok Kosong
                                                     </span>
                                                     @break
+                                                @case('Permintaan Diterima')
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                        <i class="fas fa-check-circle mr-1"></i>
+                                                        Diterima
+                                                    </span>
+                                                    @break
+                                                @case('Barang Telah Tersedia')
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                        <i class="fas fa-box mr-1"></i>
+                                                        Tersedia
+                                                    </span>
+                                                    @break
+                                                @case('Permintaan Selesai')
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                                        <i class="fas fa-check-double mr-1"></i>
+                                                        Selesai
+                                                    </span>
+                                                    @break
                                             @endswitch
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $order->created_at->format('d M Y H:i') }}
+                                            {{ (is_array($order) ? $order['created_at'] : $order->created_at)->format('d M Y H:i') }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="{{ route('order-tracking.show', $order) }}" 
+                                            @php
+                                                $isCart = is_array($order) ? $order['type'] === 'cart' : isset($order->product);
+                                            @endphp
+                                            <a href="{{ $isCart ? route('order-tracking.show', $order['model'] ?? $order) : route('order-tracking.show-order', $order['model'] ?? $order) }}" 
                                                class="text-blue-600 hover:text-blue-900">
                                                 <i class="fas fa-eye mr-1"></i>
                                                 Detail

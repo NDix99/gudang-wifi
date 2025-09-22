@@ -51,6 +51,7 @@ Route::post('/transaction', [LandingTransactionController::class, 'store'])
 Route::controller(\App\Http\Controllers\Customer\OrderTrackingController::class)->middleware(['auth'])->group(function(){
     Route::get('/order-tracking', 'index')->name('order-tracking.index');
     Route::get('/order-tracking/{cart}', 'show')->name('order-tracking.show');
+    Route::get('/order-tracking/order/{order}', 'showOrder')->name('order-tracking.show-order');
 });
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'role:Admin|Super Admin']], function () {
