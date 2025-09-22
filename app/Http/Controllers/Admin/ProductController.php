@@ -58,6 +58,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'image' => $image->hashName(),
             'unit' => $request->unit,
+            'minimum_stock' => $request->minimum_stock ?? 10,
         ]);
 
         // Catat histori barang masuk saat produk baru dibuat (qty awal 0)
@@ -105,6 +106,7 @@ class ProductController extends Controller
             'supplier_id' => $request->supplier_id,
             'name' => $request->name,
             'unit' => $request->unit,
+            'minimum_stock' => $request->minimum_stock ?? 10,
         ]);
 
         if($request->file($name)){

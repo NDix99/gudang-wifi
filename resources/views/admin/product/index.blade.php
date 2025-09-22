@@ -16,6 +16,9 @@
                             <th>Nama Supplier</th>
                             <th>Kategori Barang</th>
                             <th>Satuan</th>
+                            <th>Stok</th>
+                            <th>Min. Stok</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -31,6 +34,21 @@
                                 <td>{{ $product->supplier->name }}</td>
                                 <td>{{ $product->category->name }}</td>
                                 <td>{{ $product->unit }}</td>
+                                <td>
+                                    <span class="badge bg-primary">{{ $product->quantity }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary">{{ $product->minimum_stock }}</span>
+                                </td>
+                                <td>
+                                    @if($product->quantity <= 0)
+                                        <span class="badge bg-danger">Habis</span>
+                                    @elseif($product->isStockBelowMinimum())
+                                        <span class="badge bg-warning">Rendah</span>
+                                    @else
+                                        <span class="badge bg-success">Aman</span>
+                                    @endif
+                                </td>
                                 <td>
                                     @can('update-product')
                                         <x-button-link title="" icon="edit" class="btn btn-info btn-sm"

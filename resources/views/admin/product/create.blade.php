@@ -10,6 +10,8 @@
                         <x-input name="name" type="text" title="Nama Produk" placeholder="Nama Produk" :value="old('name')" />
                         <x-input name="unit" type="text" title="Satuan Produk" placeholder="Satuan Produk"
                             :value="old('unit')" />
+                        <x-input name="minimum_stock" type="number" title="Stok Minimum" placeholder="Stok Minimum" 
+                            :value="old('minimum_stock', 10)" min="0" />
                         <x-select title="Supplier Produk" name="supplier_id">
                             <option value>Silahkan Pilih</option>
                             @foreach ($suppliers as $supplier)

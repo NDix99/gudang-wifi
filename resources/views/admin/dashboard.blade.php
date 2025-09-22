@@ -110,12 +110,13 @@
             @endif
         </div>
         <div class="col-12 col-lg-6">
-            <x-card title="List Barang dengan stok kurang dari 10">
+            <x-card title="List Barang dengan stok di bawah minimum">
                 <div class="list list-row list-hoverable">
                     @foreach ($productsOutStock as $product)
                         <div class="list-item">
                             <div>
                                 <span class="badge bg-danger">{{ $product->quantity }}</span>
+                                <small class="d-block text-muted mt-1">Min: {{ $product->minimum_stock }}</small>
                             </div>
                             <div class="text-truncate">
                                 <a href="{{ route('admin.stock.index') }}"

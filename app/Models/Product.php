@@ -12,6 +12,18 @@ class Product extends Model
     use HasFactory, HasSlug;
 
     protected $guarded = [];
+    
+    protected $fillable = [
+        'category_id',
+        'supplier_id', 
+        'name',
+        'slug',
+        'description',
+        'quantity',
+        'minimum_stock',
+        'image',
+        'unit'
+    ];
 
     public function getImageAttribute($value)
     {
@@ -36,5 +48,26 @@ class Product extends Model
     public function carts()
     {
         return $this->belongsToMany(Cart::class);
+    }
+
+    /**
+     * Check if product stock is below minimum threshold
+     */
+    public function isStockBelowMinimum()
+    {
+        return $this->quantity <= $this->minimum_stock;
+    }
+
+    /**
+     * Get stock status
+     */
+    public function getStockStatusAttribute()
+    {
+        if ($this->quantity <= 0) {
+            return 'out_of_stock';
+        } elseif ($this->isStockBelowMinimum()) {
+            return 'low_stock';
+        }
+        return 'in_stock';
     }
 }

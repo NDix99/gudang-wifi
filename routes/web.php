@@ -73,6 +73,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'r
     Route::resource('/stock', StockController::class)
         ->only('index', 'update')
         ->middleware('permission:index-stock');
+    
+    Route::put('/stock/update-minimum/{product}', [StockController::class, 'updateMinimum'])
+        ->name('stock.update-minimum')
+        ->middleware('permission:index-stock');
 
     Route::get('/stock/history', [\App\Http\Controllers\Admin\StockHistoryController::class, 'index'])
         ->name('stock.history')

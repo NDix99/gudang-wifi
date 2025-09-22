@@ -39,6 +39,12 @@
                                     :value="$product->unit" />
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <x-input name="minimum_stock" type="number" title="Stok Minimum" placeholder="Stok Minimum" 
+                                    :value="$product->minimum_stock" min="0" />
+                            </div>
+                        </div>
                         <x-button-save title="Simpan" icon="save" class="btn btn-primary" />
                         <x-button-link title="Kembali" icon="arrow-left" :url="route('admin.product.index')" class="btn btn-dark"
                             style="mr-1" />

@@ -17,6 +17,8 @@
                             <th>Kategori Produk</th>
                             <th>Satuan</th>
                             <th>Stok</th>
+                            <th>Min. Stok</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -32,7 +34,21 @@
                                 <td>{{ $product->supplier->name }}</td>
                                 <td>{{ $product->category->name }}</td>
                                 <td>{{ $product->unit }}</td>
-                                <td>{{ $product->quantity }}</td>
+                                <td>
+                                    <span class="badge bg-primary">{{ $product->quantity }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary">{{ $product->minimum_stock }}</span>
+                                </td>
+                                <td>
+                                    @if($product->quantity <= 0)
+                                        <span class="badge bg-danger">Habis</span>
+                                    @elseif($product->isStockBelowMinimum())
+                                        <span class="badge bg-warning">Rendah</span>
+                                    @else
+                                        <span class="badge bg-success">Aman</span>
+                                    @endif
+                                </td>
                                 <td>
                                     <x-button-modal :id="$product->id" icon="plus" style="mr-1" title="Stok"
                                         class="btn bg-teal btn-sm text-white" />
@@ -43,6 +59,18 @@
                                             @method('PUT')
                                             <x-input title="Stok Produk" name="quantity" type="text"
                                                 placeholder="Stok Produk" :value="$product->quantity" />
+                                            <x-button-save title="Simpan" icon="save" class="btn btn-primary" />
+                                        </form>
+                                    </x-modal>
+                                    
+                                    <x-button-modal :id="'min_' . $product->id" icon="settings" style="mr-1" title="Min. Stok"
+                                        class="btn bg-orange btn-sm text-white" />
+                                    <x-modal :id="'min_' . $product->id" title="Atur Minimum Stok - {{ $product->name }}">
+                                        <form action="{{ route('admin.stock.update-minimum', $product->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <x-input title="Minimum Stok" name="minimum_stock" type="number"
+                                                placeholder="Minimum Stok" :value="$product->minimum_stock" min="0" />
                                             <x-button-save title="Simpan" icon="save" class="btn btn-primary" />
                                         </form>
                                     </x-modal>

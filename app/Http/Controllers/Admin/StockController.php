@@ -59,4 +59,22 @@ class StockController extends Controller
 
         return view('admin.stock.report', compact('products'));
     }
+
+    /**
+     * Update minimum stock for a product
+     */
+    public function updateMinimum(Request $request, $id)
+    {
+        $request->validate([
+            'minimum_stock' => 'required|integer|min:0'
+        ]);
+
+        $product = Product::findOrFail($id);
+
+        $product->update([
+            'minimum_stock' => $request->minimum_stock,
+        ]);
+
+        return back()->with('toast_success', 'Minimum stok berhasil diupdate');
+    }
 }

@@ -39,7 +39,7 @@ class DashboardController extends Controller
 
         $transactionThisMonth = TransactionDetail::whereMonth('created_at', date('m'))->sum('quantity');
 
-        $productsOutStock = Product::where('quantity', '<=', 10)->paginate(5);
+        $productsOutStock = Product::whereRaw('quantity <= minimum_stock')->paginate(5);
 
         // Hitung hanya permintaan dengan status Pending (string enum value)
         $orders = Order::where('status', OrderStatus::Pending->value)->get();
