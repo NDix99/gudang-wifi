@@ -21,7 +21,8 @@ class CartController extends Controller
             ->latest()
             ->get();
 
-        $grandQuantity = $carts->sum('quantity');
+        // Total qty hanya untuk item Draft yang tampil di keranjang
+        $grandQuantity = $carts->where('status', CartStatus::Draft)->sum('quantity');
 
         if($carts->count() > 0){
             return view('landing.cart.index', compact('carts', 'grandQuantity'));
