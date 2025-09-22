@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\StockHistory;
 use App\Enums\CartStatus;
 use Illuminate\Http\Request;
 
@@ -33,16 +34,38 @@ class CartApprovalController extends Controller
             return back()->with('toast_warning', 'Stok tidak mencukupi untuk ' . $product->name);
         }
 
+        // Kurangi stok produk
+        $quantityBefore = $product->quantity;
+        $product->decrement('quantity', $cart->quantity);
+        $quantityAfter = $product->fresh()->quantity;
+
+        // Catat histori stok keluar
+        StockHistory::create([
+            'product_id' => $cart->product_id,
+            'quantity_change' => -$cart->quantity,
+            'quantity_before' => $quantityBefore,
+            'quantity_after' => $quantityAfter,
+            'action' => 'out',
+            'note' => 'Barang keluar dari approval admin untuk user: ' . $cart->user->name,
+            'user_id' => auth()->id(),
+        ]);
+
         // Buat order tracking
         \App\Models\Order::create([
             'user_id' => $cart->user_id,
             'name' => $product->name,
             'quantity' => $cart->quantity,
             'status' => \App\Enums\OrderStatus::Verified,
-            'unit' => 'qty'
+            'unit' => $product->unit
         ]);
 
-        // Hapus cart dari keranjang user
+        // Update status cart ke Approved dan hapus
+        $cart->update([
+            'status' => CartStatus::Approved,
+            'admin_note' => 'Disetujui dan diproses'
+        ]);
+
+        // Hapus cart yang sudah diproses
         $cart->delete();
 
         return back()->with('toast_success', 'Permintaan ' . $product->name . ' disetujui dan dipindahkan ke tracking pesanan');
