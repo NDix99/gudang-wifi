@@ -57,8 +57,8 @@
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
-                                            <x-input title="Stok Produk" name="quantity" type="text"
-                                                placeholder="Stok Produk" :value="$product->quantity" />
+                                            <x-input title="Tambah Stok" name="quantity" type="number"
+                                                placeholder="Masukkan jumlah yang ingin ditambahkan" :value="old('quantity', 1)" min="1" />
                                             <x-button-save title="Simpan" icon="save" class="btn btn-primary" />
                                         </form>
                                     </x-modal>

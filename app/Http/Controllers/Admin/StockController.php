@@ -30,23 +30,26 @@ class StockController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'quantity' => 'required|integer|min:1'
+        ]);
+
         $product = Product::findOrFail($id);
 
         $quantityBefore = $product->quantity;
 
-        $product->update([
-            'quantity' => $request->quantity,
-        ]);
+        // Tambah stok, bukan overwrite
+        $product->increment('quantity', (int) $request->quantity);
 
-        $quantityAfter = $product->quantity;
+        $quantityAfter = $product->fresh()->quantity;
 
         StockHistory::create([
             'product_id' => $product->id,
             'quantity_change' => $quantityAfter - $quantityBefore,
             'quantity_before' => $quantityBefore,
             'quantity_after' => $quantityAfter,
-            'action' => ($quantityAfter - $quantityBefore) >= 0 ? 'in' : 'adjust',
-            'note' => 'Update stok manual',
+            'action' => 'in',
+            'note' => 'Penambahan stok manual',
             'user_id' => auth()->id(),
         ]);
 
