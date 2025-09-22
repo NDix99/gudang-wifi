@@ -8,37 +8,6 @@
                     <div class="border rounded-lg overflow-hidden">
                         <div class="bg-white border-b px-4 py-2.5 text-gray-700 font-medium flex items-center justify-between">
                             <span>Keranjang anda</span>
-                            @php
-                                $totalItems = $carts->count();
-                                $draftItems = $carts->where('status.value', 'Draft')->count();
-                                $pendingItems = $carts->where('status.value', 'Menunggu Persetujuan')->count();
-                                $rejectedItems = $carts->where('status.value', 'Ditolak')->count();
-                                $outOfStockItems = $carts->where('status.value', 'Stok Kosong')->count();
-                            @endphp
-                            @if($totalItems > 0)
-                                <div class="flex items-center space-x-2 text-sm">
-                                    @if($draftItems > 0)
-                                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
-                                            📝 {{ $draftItems }} Draft
-                                        </span>
-                                    @endif
-                                    @if($pendingItems > 0)
-                                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">
-                                            ⏳ {{ $pendingItems }} Pending
-                                        </span>
-                                    @endif
-                                    @if($rejectedItems > 0)
-                                        <span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">
-                                            ❌ {{ $rejectedItems }} Ditolak
-                                        </span>
-                                    @endif
-                                    @if($outOfStockItems > 0)
-                                        <span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">
-                                            ⚠️ {{ $outOfStockItems }} Kosong
-                                        </span>
-                                    @endif
-                                </div>
-                            @endif
                         </div>
                         <div class="overflow-x-auto relative">
                             <table class="w-full text-sm text-left text-gray-500 divide-y divide-gray-200">
@@ -47,13 +16,15 @@
                                         <th scope="col" class="px-4 py-3 w-0">#</th>
                                         <th scope="col" class="px-4 py-3">Nama Barang</th>
                                         <th scope="col" class="px-4 py-3 text-right">Jumlah</th>
-                                        <th scope="col" class="px-4 py-3">Status</th>
-                                        <th scope="col" class="px-4 py-3">Catatan Admin</th>
+                                        
                                         <th scope="col" class="px-4 py-3 w-0">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    @forelse ($carts as $i=>$cart)
+                                    @php
+                                        $displayCarts = $carts->where('status.value', 'Draft');
+                                    @endphp
+                                    @forelse ($displayCarts as $i=>$cart)
                                         <tr>
                                             <td class="py-3 px-4 whitespace-nowrap">
                                                 <a href="#" class="text-rose-600"
@@ -83,59 +54,15 @@
                                             <td class="py-3 px-4 whitespace-nowrap text-right">
                                                 {{ $cart->quantity }} (qty)
                                             </td>
-                                            <td class="py-3 px-4 whitespace-nowrap">
-                                                @switch($cart->status->value)
-                                                    @case('Draft')
-                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                            <i class="fas fa-edit mr-1"></i>
-                                                            Draft
-                                                        </span>
-                                                        @break
-                                                    @case('Menunggu Persetujuan')
-                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                            <i class="fas fa-clock mr-1"></i>
-                                                            Pending
-                                                        </span>
-                                                        @break
-                                                    @case('Disetujui')
-                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                            <i class="fas fa-check mr-1"></i>
-                                                            OK
-                                                        </span>
-                                                        @break
-                                                    @case('Ditolak')
-                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                            <i class="fas fa-times mr-1"></i>
-                                                            Ditolak
-                                                        </span>
-                                                        @break
-                                                    @case('Stok Kosong')
-                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                            <i class="fas fa-exclamation mr-1"></i>
-                                                            Kosong
-                                                        </span>
-                                                        @break
-                                                @endswitch
-                                            </td>
-                                            <td class="py-3 px-4 whitespace-nowrap">
-                                                @if($cart->admin_note)
-                                                    <span class="text-sm text-gray-600">{{ $cart->admin_note }}</span>
-                                                @else
-                                                    <span class="text-sm text-gray-400">-</span>
-                                                @endif
-                                            </td>
+                                            
                                             <td class="py-3 px-4 whitespace-nowrap text-right flex gap-2">
-                                                @if($cart->status->value === 'Draft' || $cart->status->value === 'Menunggu Persetujuan' || $cart->status->value === 'Stok Kosong')
-                                                    <form action="{{ route('cart.update', $cart->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <input
-                                                            class="w-16 border px-2 py-0.5 rounded focus:outline-none focus:ring-2 focus:ring-sky-600"
-                                                            value="{{ $cart->quantity }}" type="number" name="quantity" />
-                                                    </form>
-                                                @else
-                                                    <span class="text-sm text-gray-500">Tidak dapat diubah</span>
-                                                @endif
+                                                <form action="{{ route('cart.update', $cart->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input
+                                                        class="w-16 border px-2 py-0.5 rounded focus:outline-none focus:ring-2 focus:ring-sky-600"
+                                                        value="{{ $cart->quantity }}" type="number" name="quantity" />
+                                                </form>
                                             </td>
                                         @empty
                                             <td class="py-3 px-4 whitespace-nowrap" colSpan="6">
@@ -291,13 +218,10 @@
                             </div>
                         </div>
                         <div class="my-3">
-                            @php
-                                $draftItems = $carts->where('status.value', 'Draft')->count();
-                                $readyToOrderItems = $draftItems; // Hanya Draft yang bisa diorder langsung
-                                $pendingItems = $carts->where('status.value', 'Menunggu Persetujuan')->count();
-                                $rejectedItems = $carts->where('status.value', 'Ditolak')->count();
-                                $outOfStockItems = $carts->where('status.value', 'Stok Kosong')->count();
-                            @endphp
+                                    @php
+                                        $draftItems = $carts->where('status.value', 'Draft')->count();
+                                        $readyToOrderItems = $draftItems; // Hanya Draft yang bisa diorder langsung
+                                    @endphp
                             
                             @if($readyToOrderItems > 0)
                                 <button class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200 shadow-lg" type="submit">
@@ -309,33 +233,9 @@
                                 </div>
                             @else
                                 <button class="w-full bg-gray-400 text-white font-bold py-3 px-4 rounded-lg cursor-not-allowed" type="button" disabled>
-                                    @if($pendingItems > 0)
-                                        <i class="fas fa-clock mr-2"></i>
-                                        MENUNGGU ADMIN ({{ $pendingItems }} item)
-                                    @elseif($rejectedItems > 0)
-                                        <i class="fas fa-times mr-2"></i>
-                                        ADA ITEM DITOLAK ({{ $rejectedItems }} item)
-                                    @elseif($outOfStockItems > 0)
-                                        <i class="fas fa-exclamation mr-2"></i>
-                                        STOK KOSONG ({{ $outOfStockItems }} item)
-                                    @else
-                                        <i class="fas fa-shopping-cart mr-2"></i>
-                                        TIDAK ADA ITEM
-                                    @endif
+                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                    TIDAK ADA ITEM DRAFT
                                 </button>
-                                @if($pendingItems > 0)
-                                    <div class="mt-2 text-center">
-                                        <span class="text-sm text-yellow-600">⏳ Admin sedang memproses {{ $pendingItems }} item</span>
-                                    </div>
-                                @elseif($rejectedItems > 0)
-                                    <div class="mt-2 text-center">
-                                        <span class="text-sm text-red-600">❌ {{ $rejectedItems }} item ditolak, cek catatan admin</span>
-                                    </div>
-                                @elseif($outOfStockItems > 0)
-                                    <div class="mt-2 text-center">
-                                        <span class="text-sm text-red-600">⚠️ {{ $outOfStockItems }} item stok kosong</span>
-                                    </div>
-                                @endif
                             @endif
                         </form>
                     @else

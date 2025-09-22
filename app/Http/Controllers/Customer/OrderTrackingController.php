@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use App\Enums\OrderStatus;
+use App\Models\Cart;
+use App\Enums\CartStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,28 +12,30 @@ class OrderTrackingController extends Controller
 {
     public function index()
     {
-        $orders = Order::where('user_id', Auth::id())
+        $orders = Cart::with('product')
+            ->where('user_id', Auth::id())
             ->latest()
             ->paginate(10);
 
         $stats = [
-            'total' => Order::where('user_id', Auth::id())->count(),
-            'pending' => Order::where('user_id', Auth::id())->where('status', OrderStatus::Pending)->count(),
-            'verified' => Order::where('user_id', Auth::id())->where('status', OrderStatus::Verified)->count(),
-            'success' => Order::where('user_id', Auth::id())->where('status', OrderStatus::Success)->count(),
-            'done' => Order::where('user_id', Auth::id())->where('status', OrderStatus::Done)->count(),
+            'total' => Cart::where('user_id', Auth::id())->count(),
+            'pending' => Cart::where('user_id', Auth::id())->where('status', CartStatus::Pending)->count(),
+            'approved' => Cart::where('user_id', Auth::id())->where('status', CartStatus::Approved)->count(),
+            'rejected' => Cart::where('user_id', Auth::id())->where('status', CartStatus::Rejected)->count(),
+            'out_of_stock' => Cart::where('user_id', Auth::id())->where('status', CartStatus::OutOfStock)->count(),
         ];
 
         return view('customer.order-tracking.index', compact('orders', 'stats'));
     }
 
-    public function show(Order $order)
+    public function show(Cart $cart)
     {
-        // Pastikan order milik user yang sedang login
-        if($order->user_id !== Auth::id()) {
+        if($cart->user_id !== Auth::id()) {
             abort(403, 'Unauthorized');
         }
 
-        return view('customer.order-tracking.show', compact('order'));
+        return view('customer.order-tracking.show', [
+            'cart' => $cart,
+        ]);
     }
 }

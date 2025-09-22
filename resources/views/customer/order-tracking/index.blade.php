@@ -41,20 +41,20 @@
                             <i class="fas fa-check-circle text-purple-500 text-2xl"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-500">Diterima</p>
-                            <p class="text-2xl font-bold text-gray-900">{{ $stats['verified'] }}</p>
+                            <p class="text-sm font-medium text-gray-500">Disetujui</p>
+                            <p class="text-2xl font-bold text-gray-900">{{ $stats['approved'] }}</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <i class="fas fa-box text-green-500 text-2xl"></i>
+                            <i class="fas fa-times-circle text-red-500 text-2xl"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-500">Tersedia</p>
-                            <p class="text-2xl font-bold text-gray-900">{{ $stats['success'] }}</p>
+                            <p class="text-sm font-medium text-gray-500">Ditolak</p>
+                            <p class="text-2xl font-bold text-gray-900">{{ $stats['rejected'] }}</p>
                         </div>
                     </div>
                 </div>
@@ -62,11 +62,11 @@
                 <div class="bg-white rounded-lg shadow p-6 border-l-4 border-gray-500">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <i class="fas fa-check-double text-gray-500 text-2xl"></i>
+                            <i class="fas fa-exclamation-triangle text-gray-500 text-2xl"></i>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-500">Selesai</p>
-                            <p class="text-2xl font-bold text-gray-900">{{ $stats['done'] }}</p>
+                            <p class="text-sm font-medium text-gray-500">Stok Kosong</p>
+                            <p class="text-2xl font-bold text-gray-900">{{ $stats['out_of_stock'] }}</p>
                         </div>
                     </div>
                 </div>
@@ -98,35 +98,41 @@
                                             {{ $orders->firstItem() + $index }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">{{ $order->name }}</div>
+                                            <div class="text-sm font-medium text-gray-900">{{ $order->product->name }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $order->quantity }} {{ $order->unit }}
+                                            {{ $order->quantity }} qty
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @switch($order->status->value)
-                                                @case('Menunggu Konfirmasi')
+                                                @case('Draft')
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                        <i class="fas fa-edit mr-1"></i>
+                                                        Draft
+                                                    </span>
+                                                    @break
+                                                @case('Menunggu Persetujuan')
                                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                                                         <i class="fas fa-clock mr-1"></i>
                                                         Menunggu
                                                     </span>
                                                     @break
-                                                @case('Permintaan Diterima')
+                                                @case('Disetujui')
                                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                                                         <i class="fas fa-check-circle mr-1"></i>
-                                                        Diterima
+                                                        Disetujui
                                                     </span>
                                                     @break
-                                                @case('Barang Telah Tersedia')
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                        <i class="fas fa-box mr-1"></i>
-                                                        Tersedia
+                                                @case('Ditolak')
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                        <i class="fas fa-times mr-1"></i>
+                                                        Ditolak
                                                     </span>
                                                     @break
-                                                @case('Permintaan Selesai')
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                                        <i class="fas fa-check-double mr-1"></i>
-                                                        Selesai
+                                                @case('Stok Kosong')
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                        <i class="fas fa-exclamation mr-1"></i>
+                                                        Stok Kosong
                                                     </span>
                                                     @break
                                             @endswitch

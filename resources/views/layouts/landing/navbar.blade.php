@@ -31,7 +31,7 @@
                             <a href="{{ route('cart.index') }}" class="relative group" title="Keranjang">
                                 <div
                                     class="text-sm absolute -right-2 -top-3 bg-rose-500 rounded-full px-2 group-hover:bg-rose-700">
-                                    {{ Auth::user()->carts()->count() }}
+                                    {{ Auth::user()->carts()->where('status', \App\Enums\CartStatus::Draft)->count() }}
                                 </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-basket"
                                     width="32" height="32" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor"

@@ -50,7 +50,7 @@ Route::post('/transaction', [LandingTransactionController::class, 'store'])
 // Order Tracking Routes - Available for all authenticated users
 Route::controller(\App\Http\Controllers\Customer\OrderTrackingController::class)->middleware(['auth'])->group(function(){
     Route::get('/order-tracking', 'index')->name('order-tracking.index');
-    Route::get('/order-tracking/{order}', 'show')->name('order-tracking.show');
+    Route::get('/order-tracking/{cart}', 'show')->name('order-tracking.show');
 });
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'role:Admin|Super Admin']], function () {

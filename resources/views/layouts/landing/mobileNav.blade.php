@@ -96,7 +96,7 @@
                         <circle cx="12" cy="15" r="2"></circle>
                     </svg>
                     <div class="text-sm absolute -right-2 -top-1 bg-rose-500 rounded-full px-2 group-hover:bg-rose-700">
-                        {{ Auth::user()->carts()->count() }}
+                        {{ Auth::user()->carts()->where('status', \App\Enums\CartStatus::Draft)->count() }}
                     </div>
                 </a>
                 @endrole
