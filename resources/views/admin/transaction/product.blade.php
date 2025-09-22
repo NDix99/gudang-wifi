@@ -7,7 +7,7 @@
                 <x-table>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>No</th>
                             <th>Nama Customer</th>
                             <th>Nama Produk</th>
                             <th>Kategori Produk</th>

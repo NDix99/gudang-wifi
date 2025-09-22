@@ -7,9 +7,9 @@
                 <x-table>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>No</th>
                             <th>Produk</th>
-                            <th>Perubahan</th>
+                            <th>Jumlah Barang Masuk</th>
                             <th>Sebelum</th>
                             <th>Sesudah</th>
                             <th>Catatan</th>
