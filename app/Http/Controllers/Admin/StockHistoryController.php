@@ -9,7 +9,10 @@ class StockHistoryController extends Controller
 {
     public function index()
     {
-        $histories = StockHistory::with(['product'])->latest()->paginate(15);
+        $histories = StockHistory::with(['product'])
+            ->where('action', 'in')
+            ->latest()
+            ->paginate(15);
         return view('admin.stock.history', compact('histories'));
     }
 }
