@@ -126,11 +126,17 @@
                                         {{ $readyToOrderItems }} item siap diorder!
                                     </p>
                                     <div class="flex gap-2 justify-center">
-                                        </form>
+                                        <a href="{{ route('product.index') }}" 
+                                           class="inline-flex items-center px-4 py-2 bg-sky-600 text-white text-sm font-medium rounded-lg hover:bg-sky-700 transition-colors duration-200">
+                                            <i class="fas fa-plus mr-2"></i>
+                                            Tambah Barang
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         @endif
+                        
+                      
                     </div>
                 </div>
                 <div class="md:col-span-4" x-data="{ open: false }" id="order-section">
@@ -188,7 +194,7 @@
                                         <input type="text"
                                             class="rounded-lg border p-2 text-sm text-gray-700 focus:outline-none bg-gray-200 cursor-not-allowed"
                                             placeholder="" name="grand_total"
-                                            value="{{ $carts->count() }} ({{ $grandQuantity }} Qty)" readonly />
+                                            value=" ({{ $grandQuantity }} Qty)" readonly />
                                     </div>
                                     
                                     @php
