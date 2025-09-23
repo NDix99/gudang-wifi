@@ -3,6 +3,19 @@
 @section('content')
     <x-container>
         <div class="col-12">
+            <form method="GET" action="{{ route('admin.stock.index') }}" class="row g-2 mb-3">
+                <div class="col-md-6">
+                    <x-input name="search" type="text" title="Cari Produk" placeholder="Cari nama, satuan, supplier, kategori" :value="request('search')" />
+                </div>
+                <div class="col-md-6 d-flex align-items-end">
+                    <div>
+                        <x-button-save title="Cari" icon="search" class="btn btn-primary me-2" />
+                        @if(request('search'))
+                            <a href="{{ route('admin.stock.index') }}" class="btn btn-secondary">Reset</a>
+                        @endif
+                    </div>
+                </div>
+            </form>
             @can('create-product')
                 <x-button-link title="Tambah Produk" icon="plus" class="btn btn-primary mb-3" style="mr-1" :url="route('admin.product.create')" />
             @endcan

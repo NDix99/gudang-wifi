@@ -21,9 +21,25 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate(10);
+        $searchKeyword = $request->get('search');
+
+        $products = Product::with(['supplier', 'category'])
+            ->when($searchKeyword, function ($query) use ($searchKeyword) {
+                $query->where(function ($subQuery) use ($searchKeyword) {
+                    $subQuery->where('name', 'like', "%{$searchKeyword}%")
+                        ->orWhere('unit', 'like', "%{$searchKeyword}%")
+                        ->orWhereHas('supplier', function ($supplierQuery) use ($searchKeyword) {
+                            $supplierQuery->where('name', 'like', "%{$searchKeyword}%");
+                        })
+                        ->orWhereHas('category', function ($categoryQuery) use ($searchKeyword) {
+                            $categoryQuery->where('name', 'like', "%{$searchKeyword}%");
+                        });
+                });
+            })
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admin.product.index', compact('products'));
     }
