@@ -33,8 +33,9 @@ class ProductRequest extends FormRequest
                 'minimum_stock' => 'required|integer|min:0',
             ];
         }elseif(request()->isMethod('PUT')){
+            $productId = $this->route('product')->id ?? $this->id;
             $data = [
-                'name' => 'required|unique:products,name,'.$this->id,
+                'name' => 'required|unique:products,name,'.$productId,
                 'image' => 'mimes:png,jpg,jpeg|max:2048',
                 'category_id' => 'required',
                 'supplier_id' => 'required',
